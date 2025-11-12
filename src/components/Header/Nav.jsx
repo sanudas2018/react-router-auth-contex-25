@@ -3,7 +3,7 @@ import { links } from "./Links";
 
 const Nav = () => {
   return (
-    <div className="mb-7">
+    <div className="mb-4">
       <div className="navbar bg-base-100 shadow-sm">
         <div className="navbar-start">
           <div className="dropdown">
