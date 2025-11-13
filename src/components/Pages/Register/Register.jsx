@@ -1,8 +1,9 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { use, useState } from "react";
 import { Link } from "react-router";
-import { auth } from "../../../Firebase/firebase.init";
+// import { auth } from "../../../Firebase/firebase.init";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const Register = () => {
   // success message handle:
@@ -11,7 +12,8 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   // Show Password with icon
   const [showPassword, setShowPassword] = useState(false);
-
+  // Step:3: FirebaseAuthProvider থেকে context এর মাধ্যমে ডাটা টি আনা হয়েছে।
+  const { createUser } = use(AuthContext);
   // Step:1 -
   // User Register করা হয়েছে।
   const handleRegister = (e) => {
@@ -23,7 +25,7 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
     const terms = form.terms.checked;
-    console.log(userName, photo, terms);
+    // console.log(userName, photo, terms);
     // success টি clear করে দিবে।
     setSuccess(false);
     // error টি clear করে দিবে।
@@ -34,7 +36,7 @@ const Register = () => {
       return;
     }
     // Password Validate
-    console.log(password.length);
+    // console.log(password.length);
     const passwordRegExp = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/;
     if (password.length <= 6) {
       setErrorMessage("password must be 6 characters");
@@ -49,13 +51,27 @@ const Register = () => {
     // firebase.init.js টি setup করতে হবে.
     // Step:2 - Firebase Auth দিয়ে - Sign Up করা হয়েছে;
     // Password Authenticate এর ভিতরে জেতে হবে।
-    createUserWithEmailAndPassword(auth, email, password)
+    // createUserWithEmailAndPassword(auth, email, password)
+    //   .then((userCredential) => {
+    //     // Signed up
+    //     const user = userCredential.user;
+    //     console.log(user);
+    //     setSuccess(true);
+    //     // ...
+    //   })
+    //   .catch((error) => {
+    //     // const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //     setErrorMessage(errorMessage);
+    //     // ..
+    //   });
+    // Step:4: এখানে আগের মতন করে createUser করা হয়েছে।
+    createUser(email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
         console.log(user);
         setSuccess(true);
-        // ...
       })
       .catch((error) => {
         // const errorCode = error.code;
