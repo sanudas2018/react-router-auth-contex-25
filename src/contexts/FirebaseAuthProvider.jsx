@@ -1,6 +1,9 @@
 import React from "react";
 import { AuthContext } from "./AuthContext";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../Firebase/firebase.init";
 
 const FirebaseAuthProvider = ({ children }) => {
@@ -8,11 +11,17 @@ const FirebaseAuthProvider = ({ children }) => {
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
+  // Step:1: SignIn User এর function তৈরি করা হয়েছে এবং return করা হয়েছে। 
+  const signInUser = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
   // Step:2 (Context)- Provider Create and user information pass করতে হবে value এর মাধ্যমে।
   const userInfo = {
     // Step:2: send createUser with Register.jsx
     createUser,
+    // Step:2 - send createUser with Login.jsx
+    signInUser,
   };
 
   return <AuthContext value={userInfo}>{children}</AuthContext>;
