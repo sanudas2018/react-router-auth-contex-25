@@ -1,7 +1,12 @@
-import React from "react";
+import React, { use, useContext } from "react";
 import { links } from "./Links";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Nav = () => {
+  // Step:4 (Context)-Context টি কে check করা হয়েছে।
+  // const userInfo = use(AuthContext);
+  // const userInfo = useContext(AuthContext);
+  // console.log(userInfo);
   return (
     <div className="mb-4">
       <div className="navbar bg-base-100 shadow-sm">
