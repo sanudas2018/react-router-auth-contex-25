@@ -77,8 +77,7 @@ const FirebaseAuthProvider = ({ children }) => {
       //   "Current user inside useEffect one auth state change",
       //   currentUser
       // );
-      setUser(currentUser);
-      setLoading(false);
+
       // এভাবে Login ঠেকান জেতে পারে তবে কিছু problem আছে।
       // const currentUserWithEmailVerified = currentUser.emailVerified;
       // if (currentUserWithEmailVerified === false) {
@@ -86,6 +85,11 @@ const FirebaseAuthProvider = ({ children }) => {
       // } else {
       //   setUser(currentUser);
       // }
+      // user email Verified না করে login / Database access করতে পারবে না।
+      if (currentUser === null || currentUser.emailVerified) {
+        setUser(currentUser);
+      }
+      setLoading(false);
     });
     return () => {
       unSubscribe();
