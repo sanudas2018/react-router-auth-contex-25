@@ -11,18 +11,28 @@ import { auth } from "../Firebase/firebase.init";
 const FirebaseAuthProvider = ({ children }) => {
   // * Step:-2 Observer - (State add এবং setUser করতে হবে currentUser কে, যাতে এই user সকল স্থান থেকে access পাই বা Observer করতে পারে।)
   const [user, setUser] = useState(null);
+  /**
+   * Step:-1 (Loading)
+   * Page Loading দিলে, বারবার login page নিয়ে যাছে এটি ঠিক করার জন্য, loading set করতে হবেঃ
+   * State set করতে হবে।
+   *
+   */
+  const [loading, setLoading] = useState(true);
 
   // Step:1: context থেকে user create করা হয়েছে। এবং context এর মাধ্যমে Register.jsx এ দিয়া হয়েছে।
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
   // Step:1: SignIn User এর function তৈরি করা হয়েছে এবং return করা হয়েছে।
   const signInUser = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
   // * Step:-5 Observer - (signOut টি অ্যাড করা হয়েছে
   // ==> Password Authentication এর ভিতরেঃ signOut())
   const signOutUser = () => {
+    setLoading(true);
     return signOut(auth);
   };
 
@@ -45,6 +55,7 @@ const FirebaseAuthProvider = ({ children }) => {
       //   currentUser
       // );
       setUser(currentUser);
+      setLoading(false);
     });
     return () => {
       unSubscribe();
@@ -60,6 +71,7 @@ const FirebaseAuthProvider = ({ children }) => {
     // * Step:-3 Observer - (User এবং signOutUser টি কে Nav.jsx এ দিয়া হয়েছে।)
     user,
     signOutUser,
+    loading,
   };
 
   return <AuthContext value={userInfo}>{children}</AuthContext>;
