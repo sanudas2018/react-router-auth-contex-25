@@ -1,14 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const Login = () => {
   // Step:3 - useContext এর মাধ্যমে Data টি আনা হয়েছে।
-  const { signInUser, googleSingIn } = useContext(AuthContext);
+  const { signInUser, googleSingIn, passwordReset } = useContext(AuthContext);
   // Step:- 1 - navigate করে অন্য page নিয়া হয়েছে।
   const navigate = useNavigate();
   // location এর মাধ্যমে state use করে নিদিষ্ট route এ নিয়ে যাবে।
   const location = useLocation();
+
+  const emailRef = useRef();
 
   // Form submit তৈরি করা হয়েছে।
   const handleLogin = (e) => {
@@ -64,6 +66,23 @@ const Login = () => {
         // ...
       });
   };
+  // Step:- 2 - Send a password reset email - Manage User এর ভিতরে আছে
+  const handleForgetPassword = () => {
+    const email = emailRef.current.value;
+    // setErrorMessage(''); থাকলে এখানে দিতে হবে;
+    passwordReset(email)
+      .then(() => {
+        // Password reset email sent!
+        alert("A Password reset email is sent, Please check your email");
+        // ..
+      })
+      .catch((error) => {
+        // const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        // ..
+      });
+  };
 
   return (
     <div className="min-h-screen bg-green-300 flex justify-center items-center my-6">
@@ -76,6 +95,7 @@ const Login = () => {
             <input
               type="email"
               name="email"
+              ref={emailRef}
               className="input"
               placeholder="Email"
             />
@@ -87,7 +107,10 @@ const Login = () => {
               placeholder="Password"
             />
             <div>
-              <a className="link link-hover">Forgot password?</a>
+              {/* Step;- 1 - click handler set*/}
+              <div onClick={handleForgetPassword} className="link link-hover">
+                Forgot password?
+              </div>
             </div>
             <button className="btn btn-dash btn-success mt-4">Login</button>
           </form>

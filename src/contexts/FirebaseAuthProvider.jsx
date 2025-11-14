@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -85,6 +86,14 @@ const FirebaseAuthProvider = ({ children }) => {
       unSubscribe();
     };
   }, []);
+
+  // ----------------
+  // Step:- 3 - Password Reset Email
+  const passwordReset = (email) => {
+    setLoading(true);
+    return sendPasswordResetEmail(auth, email);
+  };
+
   // ------------------
   // Step:2 (Context)- Provider Create and user information pass করতে হবে value এর মাধ্যমে।
   const userInfo = {
@@ -99,6 +108,7 @@ const FirebaseAuthProvider = ({ children }) => {
     // Step:3 - google sign পাঠান হয়েছে।
     googleSingIn,
     emailVerified,
+    passwordReset,
   };
 
   return <AuthContext value={userInfo}>{children}</AuthContext>;
