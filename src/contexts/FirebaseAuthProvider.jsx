@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -38,6 +39,13 @@ const FirebaseAuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
+
+  //  Email Verification:
+  const emailVerified = () => {
+    setLoading(true);
+    // const currentUser = user;
+    return sendEmailVerification(auth.currentUser);
+  };
   // * Step:-5 Observer - (signOut টি অ্যাড করা হয়েছে
   // ==> Password Authentication এর ভিতরেঃ signOut())
   const signOutUser = () => {
@@ -65,6 +73,13 @@ const FirebaseAuthProvider = ({ children }) => {
       // );
       setUser(currentUser);
       setLoading(false);
+      // এভাবে Login ঠেকান জেতে পারে তবে কিছু problem আছে।
+      // const currentUserWithEmailVerified = currentUser.emailVerified;
+      // if (currentUserWithEmailVerified === false) {
+      //   alert("Fast Email Verified");
+      // } else {
+      //   setUser(currentUser);
+      // }
     });
     return () => {
       unSubscribe();
@@ -83,6 +98,7 @@ const FirebaseAuthProvider = ({ children }) => {
     loading,
     // Step:3 - google sign পাঠান হয়েছে।
     googleSingIn,
+    emailVerified,
   };
 
   return <AuthContext value={userInfo}>{children}</AuthContext>;

@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../../../contexts/AuthContext";
 
+
 const Register = () => {
   // success message handle:
   const [success, setSuccess] = useState(false);
@@ -13,7 +14,7 @@ const Register = () => {
   // Show Password with icon
   const [showPassword, setShowPassword] = useState(false);
   // Step:3: FirebaseAuthProvider থেকে context এর মাধ্যমে ডাটা টি আনা হয়েছে।
-  const { createUser } = use(AuthContext);
+  const { createUser, emailVerified } = use(AuthContext);
   // Step:1 -
   // User Register করা হয়েছে।
   const handleRegister = (e) => {
@@ -72,6 +73,19 @@ const Register = () => {
         const user = userCredential.user;
         console.log(user);
         setSuccess(true);
+        /**
+         * Email Verification:
+         * Send a user a verification email
+         *
+         * */
+        emailVerified().then(() => {
+          // Email verification sent!
+          // ...
+          setSuccess(true);
+          alert(
+            `We sent you a verification email. please checked email: ${email}`
+          );
+        });
       })
       .catch((error) => {
         // const errorCode = error.code;

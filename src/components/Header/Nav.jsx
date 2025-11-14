@@ -127,7 +127,7 @@ const Nav = () => {
           {/* user দারা condition করা হয়েছে */}
           {user ? (
             <>
-              <span>{user.email}</span>
+              <span>{user?.email}</span>
               {/* Sing Out function টি call করা হয়েছে */}
               <Link onClick={handleSignOut} className="btn">
                 Sing Out

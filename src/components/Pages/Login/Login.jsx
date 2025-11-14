@@ -21,9 +21,15 @@ const Login = () => {
     signInUser(userEmail, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        navigate(location?.state || "/");
+        // const user = userCredential.user;
+        // Check Email Verified:
+        if (!userCredential.user.emailVerified) {
+          alert("please verify your email");
+        } else {
+          // console.log(user);
+          navigate(location?.state || "/");
+        }
+
         // ...
       })
       .catch((error) => {
