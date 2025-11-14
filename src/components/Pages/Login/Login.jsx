@@ -4,7 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 
 const Login = () => {
   // Step:3 - useContext এর মাধ্যমে Data টি আনা হয়েছে।
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser, googleSingIn } = useContext(AuthContext);
   // Step:- 1 - navigate করে অন্য page নিয়া হয়েছে।
   const navigate = useNavigate();
   // location এর মাধ্যমে state use করে নিদিষ্ট route এ নিয়ে যাবে।
@@ -30,6 +30,32 @@ const Login = () => {
         // const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
+      });
+  };
+  // google login set করা হয়েছেঃ FireBaseAuthProvider.jsx থেকে নিয়া হয়েছে।
+  const handleGoogleLogin = () => {
+    googleSingIn()
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential.accessToken;
+        // // The signed-in user info.
+        const user = result.user;
+        console.log(user);
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+        navigate(location?.state || "/");
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        // const errorCode = error.code;
+        const errorMessage = error.message;
+        // // The email of the user's account used.
+        // const email = error.customData.email;
+        // // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(errorMessage);
+        // ...
       });
   };
 
@@ -61,7 +87,12 @@ const Login = () => {
           </form>
           <div className="divider">OR</div>
           <div className="googleLogin flex justify-around items-center mb-3">
-            <button className="btn btn-soft btn-warning">Google</button>
+            <button
+              onClick={handleGoogleLogin}
+              className="btn btn-soft btn-warning"
+            >
+              Google
+            </button>
             <button className="btn btn-soft btn-secondary">GitHub</button>
             <button className="btn btn-soft btn-info">Facebook</button>
           </div>

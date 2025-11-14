@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.init";
@@ -11,6 +13,8 @@ import { auth } from "../Firebase/firebase.init";
 const FirebaseAuthProvider = ({ children }) => {
   // * Step:-2 Observer - (State add এবং setUser করতে হবে currentUser কে, যাতে এই user সকল স্থান থেকে access পাই বা Observer করতে পারে।)
   const [user, setUser] = useState(null);
+  // Step:1 - google auth আগে সেট করতে হবেঃ
+  const googleProvider = new GoogleAuthProvider();
   /**
    * Step:-1 (Loading)
    * Page Loading দিলে, বারবার login page নিয়ে যাছে এটি ঠিক করার জন্য, loading set করতে হবেঃ
@@ -28,6 +32,11 @@ const FirebaseAuthProvider = ({ children }) => {
   const signInUser = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
+  };
+  // Step:2 - google sign in add: Login.jsx ফাইল এ দিয়া হয়েছে।
+  const googleSingIn = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
   };
   // * Step:-5 Observer - (signOut টি অ্যাড করা হয়েছে
   // ==> Password Authentication এর ভিতরেঃ signOut())
@@ -72,6 +81,8 @@ const FirebaseAuthProvider = ({ children }) => {
     user,
     signOutUser,
     loading,
+    // Step:3 - google sign পাঠান হয়েছে।
+    googleSingIn,
   };
 
   return <AuthContext value={userInfo}>{children}</AuthContext>;
