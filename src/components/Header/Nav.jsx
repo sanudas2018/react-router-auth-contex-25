@@ -60,6 +60,15 @@ const Nav = () => {
           Register{" "}
         </NavLink>
       </li>
+      {/* 
+      -> location অ্যাড করে Private route করা হয়েছে।
+      react-router/examples/auth/src/App.tsx */}
+      <li>
+        <NavLink className="mr-5 p-3 rounded-2xl" to="/dashboard">
+          {" "}
+          Dashboard{" "}
+        </NavLink>
+      </li>
       {/* -------------------------------- */}
       {/* Private Routes করা হয়েছে: */}
       {user && (

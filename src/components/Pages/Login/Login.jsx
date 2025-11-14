@@ -1,10 +1,15 @@
 import React, { useContext } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const Login = () => {
   // Step:3 - useContext এর মাধ্যমে Data টি আনা হয়েছে।
   const { signInUser } = useContext(AuthContext);
+  // Step:- 1 - navigate করে অন্য page নিয়া হয়েছে।
+  const navigate = useNavigate();
+  // location এর মাধ্যমে state use করে নিদিষ্ট route এ নিয়ে যাবে।
+  const location = useLocation();
+
   // Form submit তৈরি করা হয়েছে।
   const handleLogin = (e) => {
     e.preventDefault();
@@ -18,6 +23,7 @@ const Login = () => {
         // Signed in
         const user = userCredential.user;
         console.log(user);
+        navigate(location?.state || "/");
         // ...
       })
       .catch((error) => {
