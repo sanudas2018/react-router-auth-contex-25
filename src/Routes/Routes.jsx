@@ -11,6 +11,7 @@ import Orders from "../components/Pages/Orders/Orders";
 import Profiles from "../components/Pages/Profiles/Profiles";
 import PrivateRoutes from "./PrivateRoutes";
 import DashBoard from "../components/Pages/DashBoard/DashBoard";
+import ErrorPage from "../components/Pages/ErrorPage/ErrorPage";
 // React Routing setup
 // Step-2 : আজে যেখানে route টি main.jsx এর ভিতরে করতাম সেখান থেকে, এটিকে বাইরে src > Routes > Routes.jxs এর ভিতরে নিয়ে আসলাম। এবার Root.jsx- Component টি তৈরি করে বাকি প্রয়োজনীয় Component গুলি তৈরি করতে হবে।
 
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
             <DashBoard></DashBoard>
           </PrivateRoutes>
         ),
+      },
+      {
+        path: "/*",
+        Component: ErrorPage,
       },
     ],
   },
